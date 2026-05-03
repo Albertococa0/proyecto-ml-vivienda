@@ -1,0 +1,3 @@
+LR = 0.01
+EPOCHS = 200
+TEST_SIZE = 0.2

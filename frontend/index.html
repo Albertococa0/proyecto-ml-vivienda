@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción Vivienda</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Predicción de Precio</h2>
+
+    <input type="number" id="metros" placeholder="Metros">
+    <input type="number" id="habitaciones" placeholder="Habitaciones">
+    <input type="number" id="edad" placeholder="Edad">
+
+    <button onclick="predecir()">Calcular</button>
+
+    <h3 id="resultado"></h3>
+</div>
+
+<script>
+async function predecir() {
+    const metros = document.getElementById("metros").value;
+    const habitaciones = document.getElementById("habitaciones").value;
+    const edad = document.getElementById("edad").value;
+
+    const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            metros: parseFloat(metros),
+            habitaciones: parseFloat(habitaciones),
+            edad: parseFloat(edad)
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("resultado").innerText =
+        "💰 Precio estimado: " + data.precio_estimado + " €";
+}
+</script>
+
+</body>
+</html>
